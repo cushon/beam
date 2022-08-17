@@ -37,6 +37,7 @@ import net.bytebuddy.description.type.TypeList;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 import net.bytebuddy.implementation.ExceptionMethod;
 import net.bytebuddy.implementation.FixedValue;
@@ -452,6 +453,7 @@ class ByteBuddyDoFnInvokerFactory implements DoFnInvokerFactory {
 
     DynamicType.Builder<?> builder =
         new ByteBuddy()
+            .with(TypeValidation.DISABLED)
             // Create subclasses inside the target class, to have access to
             // private and package-private bits
             .with(

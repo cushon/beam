@@ -26,6 +26,7 @@ import net.bytebuddy.asm.AsmVisitorWrapper;
 import net.bytebuddy.description.type.TypeDescription.ForLoadedType;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.MethodCall;
 import net.bytebuddy.implementation.bytecode.StackManipulation;
 import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
@@ -54,7 +55,7 @@ import org.apache.beam.vendor.guava.v26_0_jre.com.google.common.collect.Maps;
   "rawtypes"
 })
 class AvroByteBuddyUtils {
-  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy();
+  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED);
 
   // Cache the generated constructors.
   private static final Map<ClassWithSchema, SchemaUserTypeCreator> CACHED_CREATORS =

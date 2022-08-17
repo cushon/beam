@@ -70,6 +70,7 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import org.apache.beam.sdk.testing.NeedsRunner;
 import org.apache.beam.sdk.testing.TestPipeline;
 import org.apache.beam.sdk.transforms.Create;
@@ -1265,6 +1266,7 @@ public class ProxyInvocationHandlerTest {
 
   private DynamicType.Unloaded<? extends PipelineOptions> spinNewInterface(int methodNumber) {
     return new ByteBuddy()
+        .with(TypeValidation.DISABLED)
         .makeInterface(PipelineOptions.class)
         .defineMethod("getDynamicMethod" + methodNumber, String.class, Visibility.PUBLIC)
         .withoutCode()
@@ -1282,7 +1284,7 @@ public class ProxyInvocationHandlerTest {
             .collect(Collectors.toList());
 
     DynamicType.Loaded<Object> root =
-        new ByteBuddy().subclass(Object.class).make().include(dynamicInterfaces).load(classLoader);
+        new ByteBuddy().with(TypeValidation.DISABLED).subclass(Object.class).make().include(dynamicInterfaces).load(classLoader);
 
     Map<TypeDescription, Class<?>> loadedInterfaces = root.getLoadedAuxiliaryTypes();
     Map<Integer, Class<? extends PipelineOptions>> result = Maps.newHashMap();

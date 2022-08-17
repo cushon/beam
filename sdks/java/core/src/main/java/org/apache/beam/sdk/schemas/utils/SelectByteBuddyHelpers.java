@@ -38,6 +38,7 @@ import net.bytebuddy.description.type.TypeDescription.Generic;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.Implementation.Context;
 import net.bytebuddy.implementation.bytecode.ByteCodeAppender;
@@ -75,7 +76,7 @@ import org.apache.beam.vendor.guava.v26_0_jre.com.google.common.collect.Maps;
   "nullness" // TODO(https://github.com/apache/beam/issues/20497)
 })
 class SelectByteBuddyHelpers {
-  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy();
+  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED);
   private static final String SELECT_SCHEMA_FIELD_NAME = "OUTPUTSCHEMA";
 
   private static final ForLoadedType ROW_LOADED_TYPE = new ForLoadedType(Row.class);

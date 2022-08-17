@@ -30,6 +30,7 @@ import net.bytebuddy.description.method.MethodDescription.ForLoadedMethod;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.bytecode.ByteCodeAppender;
@@ -111,7 +112,7 @@ public class JavaBeanUtils {
   }
 
   // Static ByteBuddy instance used by all helpers.
-  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy();
+  private static final ByteBuddy BYTE_BUDDY = new ByteBuddy().with(TypeValidation.DISABLED);
 
   private static final Map<ClassWithSchema, List<FieldValueTypeInformation>> CACHED_FIELD_TYPES =
       Maps.newConcurrentMap();

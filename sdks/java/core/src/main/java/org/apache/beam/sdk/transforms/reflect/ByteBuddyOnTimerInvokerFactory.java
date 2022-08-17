@@ -29,6 +29,7 @@ import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.bytecode.ByteCodeAppender;
@@ -194,7 +195,7 @@ class ByteBuddyOnTimerInvokerFactory implements OnTimerInvokerFactory {
             BaseEncoding.base64().omitPadding().encode(timerId.getBytes(Charsets.UTF_8)));
 
     DynamicType.Builder<?> builder =
-        new ByteBuddy()
+        new ByteBuddy().with(TypeValidation.DISABLED)
             // Create subclasses inside the target class, to have access to
             // private and package-private bits
             .with(StableInvokerNamingStrategy.forDoFnClass(fnClass).withSuffix(suffix))
@@ -246,7 +247,7 @@ class ByteBuddyOnTimerInvokerFactory implements OnTimerInvokerFactory {
             BaseEncoding.base64().omitPadding().encode(timerId.getBytes(Charsets.UTF_8)));
 
     DynamicType.Builder<?> builder =
-        new ByteBuddy()
+        new ByteBuddy().with(TypeValidation.DISABLED)
             // Create subclasses inside the target class, to have access to
             // private and package-private bits
             .with(StableInvokerNamingStrategy.forDoFnClass(fnClass).withSuffix(suffix))

@@ -26,6 +26,7 @@ import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
+import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.bytecode.ByteCodeAppender;
 import net.bytebuddy.implementation.bytecode.ByteCodeAppender.Size;
@@ -171,7 +172,7 @@ public class ConvertHelpers {
                 SerializableFunction.class, expectedInputType, outputType.getType())
             .build();
     DynamicType.Builder<SerializableFunction> builder =
-        (DynamicType.Builder<SerializableFunction>) new ByteBuddy().subclass(genericType);
+        (DynamicType.Builder<SerializableFunction>) new ByteBuddy().with(TypeValidation.DISABLED).subclass(genericType);
 
     try {
       return builder
